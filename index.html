@@ -1,0 +1,1158 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>מעבדת הלמידה החכמה</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Google Material Symbols Rounded -->
+  <link
+    href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200"
+    rel="stylesheet" />
+  <!-- Google Fonts: Poppins -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+  <!-- Google API Scripts -->
+  <script src="https://accounts.google.com/gsi/client" async defer></script>
+  <script src="https://apis.google.com/js/api.js" async defer></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            md: {
+              sys: {
+                color: {
+                  primary: '#4A55A2',
+                  onPrimary: '#FFFFFF',
+                  primaryContainer: '#D9E2FF',
+                  onPrimaryContainer: '#001A40',
+                  secondary: '#565F71',
+                  onSecondary: '#FFFFFF',
+                  secondaryContainer: '#DAE2F9',
+                  onSecondaryContainer: '#131C2B',
+                  tertiary: '#705574',
+                  onTertiary: '#FFFFFF',
+                  tertiaryContainer: '#FAD8FD',
+                  onTertiaryContainer: '#29132E',
+                  error: '#BA1A1A',
+                  onError: '#FFFFFF',
+                  errorContainer: '#FFDAD6',
+                  onErrorContainer: '#410002',
+                  background: '#FEFBFF',
+                  onBackground: '#1B1B1F',
+                  surface: '#FEFBFF',
+                  onSurface: '#1B1B1F',
+                  surfaceVariant: '#E1E2EC',
+                  onSurfaceVariant: '#44474F',
+                  outline: '#74777F',
+                  surfaceContainerHighest: '#E5E2E6',
+                  surfaceContainerHigh: '#ECEEF1',
+                  surfaceContainer: '#F3F4F7',
+                  surfaceContainerLow: '#F8FAFC',
+                  surfaceContainerLowest: '#FFFFFF',
+                }
+              }
+            }
+          },
+          fontFamily: {
+            sans: ['Poppins', 'sans-serif'],
+          },
+          boxShadow: {
+            'md3-1': '0px 1px 2px 0px rgba(0,0,0,0.3), 0px 1px 3px 1px rgba(0,0,0,0.15)',
+            'md3-2': '0px 1px 2px 0px rgba(0,0,0,0.3), 0px 2px 6px 2px rgba(0,0,0,0.15)',
+            'md3-3': '0px 4px 8px 3px rgba(0,0,0,0.15), 0px 1px 3px 0px rgba(0,0,0,0.3)',
+          }
+        }
+      }
+    }
+  </script>
+  <style>
+    body {
+      font-family: 'Poppins', 'sans-serif';
+      font-weight: 500;
+      background-color: #F3F4F7; /* surfaceContainer */
+      color: #1B1B1F; /* onSurface */
+    }
+
+    .material-symbols-rounded {
+      font-variation-settings:
+        'FILL' 0,
+        'wght' 400,
+        'GRAD' 0,
+        'opsz' 24;
+    }
+
+    .icon-filled {
+      font-variation-settings: 'FILL' 1;
+    }
+    
+    .ripple {
+      position: relative;
+      overflow: hidden;
+    }
+
+    .ripple:after {
+      content: "";
+      display: block;
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      top: 0;
+      left: 0;
+      pointer-events: none;
+      background-image: radial-gradient(circle, var(--ripple-color, rgba(0,0,0,0.2)) 10%, transparent 10.01%);
+      background-repeat: no-repeat;
+      background-position: 50%;
+      transform: scale(10, 10);
+      opacity: 0;
+      transition: transform .5s, opacity 1s;
+    }
+
+    .ripple:active:after {
+      transform: scale(0, 0);
+      opacity: .1;
+      transition: 0s;
+    }
+    
+    .nav-btn.active .indicator {
+      background-color: #D9E2FF; /* primaryContainer */
+      color: #001A40; /* onPrimaryContainer */
+    }
+    
+    .nav-btn.active span:last-child {
+        font-weight: 700;
+    }
+
+  </style>
+</head>
+
+<body class="pb-28 bg-md-sys-color-background">
+
+  <!-- Top App Bar (Small) -->
+  <header
+    class="max-w-7xl mx-auto px-2 sm:px-4 py-2 flex justify-between items-center sticky top-0 z-10 bg-md-sys-color-surfaceContainer text-md-sys-color-onSurface">
+    <div class="flex items-center gap-2">
+      <div
+        class="w-10 h-10 bg-md-sys-color-primary text-md-sys-color-onPrimary rounded-full flex items-center justify-center shadow-sm">
+        <span class="material-symbols-rounded icon-filled">school</span>
+      </div>
+      <h1 class="text-xl font-medium text-md-sys-color-onSurface">
+        מעבדת הלמידה
+      </h1>
+    </div>
+    <div class="flex gap-1">
+      <button
+        class="w-12 h-12 rounded-full flex items-center justify-center hover:bg-md-sys-color-surfaceVariant/60 transition-colors text-md-sys-color-onSurfaceVariant ripple">
+        <span class="material-symbols-rounded">search</span>
+      </button>
+      <button
+        class="w-12 h-12 rounded-full flex items-center justify-center hover:bg-md-sys-color-surfaceVariant/60 transition-colors text-md-sys-color-onSurfaceVariant ripple">
+        <span class="material-symbols-rounded">notifications</span>
+      </button>
+      <button
+        class="w-12 h-12 rounded-full flex items-center justify-center border border-md-sys-color-outline ml-1 ripple overflow-hidden">
+        <img src="https://ui-avatars.com/api/?name=User&background=D9E2FF&color=001A40" alt="User"
+          class="w-full h-full object-cover">
+      </button>
+    </div>
+  </header>
+
+  <main id="app-content" class="max-w-7xl mx-auto px-2 sm:px-4 mt-4">
+    <!-- Dashboard Home -->
+    <div id="view-home" class="grid grid-cols-1 md:grid-cols-12 gap-4">
+
+      <!-- Main Column (on mobile) / Right column (on desktop) -->
+      <div class="md:col-span-8 space-y-4">
+        <!-- Subjects (Outlined Card) -->
+        <div class="bg-md-sys-color-surface p-4 sm:p-6 rounded-3xl shadow-md3-1">
+          <div class="flex justify-between items-center mb-4">
+            <h2 class="text-xl text-md-sys-color-onSurface flex items-center gap-3">
+              <span class="material-symbols-rounded text-md-sys-color-primary">menu_book</span>
+              המקצועות שלי
+            </h2>
+            <button onclick="openAddSubjectDialog()"
+              class="w-12 h-12 bg-md-sys-color-primaryContainer text-md-sys-color-onPrimaryContainer rounded-2xl flex items-center justify-center hover:shadow-md3-2 transition-shadow ripple">
+              <span class="material-symbols-rounded text-[24px]">add</span>
+            </button>
+          </div>
+          <div id="subject-list" class="grid grid-cols-2 sm:grid-cols-3 gap-3">
+            <!-- Subjects will be injected here -->
+          </div>
+        </div>
+
+        <!-- Tools Card -->
+        <div class="bg-md-sys-color-surface p-4 sm:p-6 rounded-3xl shadow-md3-1">
+          <h2 class="text-lg font-medium text-md-sys-color-onSurface mb-4 flex items-center gap-3">
+            <span class="material-symbols-rounded text-md-sys-color-secondary">apps</span>
+            ארגז כלים
+          </h2>
+          <div id="tools-grid" class="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-5 lg:grid-cols-6 gap-4">
+            <!-- Tools will be injected here -->
+          </div>
+        </div>
+      </div>
+      
+      <!-- Side Column (on mobile) / Left column (on desktop) -->
+      <div class="md:col-span-4 space-y-4">
+        <!-- Calendar Card (Elevated Card) -->
+        <div class="bg-md-sys-color-surface p-4 rounded-3xl shadow-md3-1">
+          <div class="flex justify-between items-center mb-4">
+            <div class="flex items-center gap-3 text-md-sys-color-onSurface">
+              <span class="material-symbols-rounded text-md-sys-color-primary">calendar_month</span>
+              <h2 id="home-calendar-title" class="font-medium">אירועים קרובים</h2>
+            </div>
+          </div>
+          <div id="home-calendar-content" class="space-y-2">
+            <!-- Events will be injected here, or an auth message -->
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- Admin View (Hidden by default) -->
+    <div id="view-admin" class="hidden max-w-4xl mx-auto pb-6 px-2 sm:px-0">
+        <h2 class="text-2xl font-medium mb-6 text-md-sys-color-onSurface flex items-center gap-3">
+            <span class="material-symbols-rounded text-[32px] text-md-sys-color-primary">admin_panel_settings</span>
+            ניהול שוטף
+        </h2>
+        <div class="bg-md-sys-color-surface p-4 rounded-3xl shadow-md3-1">
+          <div class="space-y-3">
+            <button
+              class="w-full bg-md-sys-color-surfaceContainer p-4 rounded-xl text-md-sys-color-onSurface flex justify-between items-center hover:bg-md-sys-color-surfaceVariant transition-colors ripple">
+              <span class="font-medium">לוח מבחנים</span>
+              <span class="material-symbols-rounded text-md-sys-color-onSurfaceVariant">open_in_new</span>
+            </button>
+            <button
+              class="w-full bg-md-sys-color-surfaceContainer p-4 rounded-xl text-md-sys-color-onSurface flex justify-between items-center hover:bg-md-sys-color-surfaceVariant transition-colors ripple">
+              <span class="font-medium">מערכת שעות</span>
+              <span class="material-symbols-rounded text-md-sys-color-onSurfaceVariant">open_in_new</span>
+            </button>
+          </div>
+        </div>
+    </div>
+
+    <!-- Tools View (Hidden by default) -->
+    <div id="view-tools" class="hidden max-w-4xl mx-auto pb-6 px-2 sm:px-0">
+      <h2 class="text-2xl font-medium mb-6 text-md-sys-color-onSurface">כלים ואפליקציות</h2>
+      <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4" id="all-tools-grid">
+        <!-- Populated by JS -->
+      </div>
+    </div>
+
+    <!-- Tasks View (Hidden by default) -->
+    <div id="view-tasks" class="hidden max-w-4xl mx-auto pb-6 px-2 sm:px-0">
+      <h2 class="text-2xl font-medium mb-6 text-md-sys-color-onSurface flex items-center gap-3">
+        <span class="material-symbols-rounded text-[32px] text-md-sys-color-primary">task_alt</span>
+        המשימות שלי
+      </h2>
+      <div id="tasks-container"
+        class="bg-md-sys-color-surface p-6 rounded-3xl text-center min-h-[200px] flex flex-col items-center justify-center shadow-md3-1">
+        <span class="material-symbols-rounded text-6xl text-md-sys-color-outline mb-4">account_circle</span>
+        <p class="text-md-sys-color-onSurfaceVariant mb-4">נדרש חיבור לחשבון Google כדי לראות משימות.</p>
+        <button onclick="handleAuthClick()"
+          class="bg-md-sys-color-primary text-md-sys-color-onPrimary px-8 py-3 rounded-full font-medium shadow-md3-1 hover:shadow-md3-2 transition-shadow ripple">
+          התחבר
+        </button>
+      </div>
+      <div id="tasks-list" class="hidden flex-col gap-3">
+        <!-- Tasks will be injected here -->
+      </div>
+    </div>
+
+    <!-- Calendar View (Hidden by default) -->
+    <div id="view-calendar" class="hidden max-w-4xl mx-auto pb-6 px-2 sm:px-0">
+      <h2 class="text-2xl font-medium mb-6 text-md-sys-color-onSurface flex items-center gap-3">
+        <span class="material-symbols-rounded text-[32px] text-md-sys-color-primary">event</span>
+        יומן אירועים
+      </h2>
+      <div id="calendar-container"
+        class="bg-md-sys-color-surface p-6 rounded-3xl text-center min-h-[200px] flex flex-col items-center justify-center shadow-md3-1">
+        <span class="material-symbols-rounded text-6xl text-md-sys-color-outline mb-4">event_busy</span>
+        <p class="text-md-sys-color-onSurfaceVariant mb-4">נדרש חיבור לחשבון Google כדי לראות אירועים.</p>
+        <button onclick="handleAuthClick()"
+          class="bg-md-sys-color-primary text-md-sys-color-onPrimary px-8 py-3 rounded-full font-medium shadow-md3-1 hover:shadow-md3-2 transition-shadow ripple">
+          התחבר
+        </button>
+      </div>
+      <div id="calendar-events" class="hidden grid grid-cols-1 md:grid-cols-2 gap-4 mt-6">
+        <!-- Events will be injected here -->
+      </div>
+    </div>
+
+    <!-- Classroom View (Hidden by default) -->
+    <div id="view-classroom" class="hidden max-w-4xl mx-auto pb-6 px-2 sm:px-0">
+      <h2 class="text-2xl font-medium mb-6 text-md-sys-color-onSurface flex items-center gap-3">
+        <span class="material-symbols-rounded text-[32px] text-md-sys-color-primary">school</span>
+        Google Classroom
+      </h2>
+      <div id="classroom-container"
+        class="bg-md-sys-color-surface p-6 rounded-3xl text-center min-h-[200px] flex flex-col items-center justify-center shadow-md3-1">
+        <span class="material-symbols-rounded text-6xl text-md-sys-color-outline mb-4">supervisor_account</span>
+        <p class="text-md-sys-color-onSurfaceVariant mb-4">נדרש חיבור ל-Classroom.</p>
+        <button onclick="handleClassroomAuthClick()"
+          class="bg-md-sys-color-primary text-md-sys-color-onPrimary px-8 py-3 rounded-full font-medium shadow-md3-1 hover:shadow-md3-2 transition-shadow ripple">
+          התחבר
+        </button>
+      </div>
+      <div id="classroom-list" class="hidden grid grid-cols-1 md:grid-cols-2 gap-4 mt-6">
+        <!-- Classroom courses will be injected here -->
+      </div>
+    </div>
+
+    <!-- Settings View (Hidden by default) -->
+    <div id="view-settings" class="hidden max-w-2xl mx-auto pb-6 px-2 sm:px-0">
+      <h2 class="text-2xl font-medium mb-6 text-md-sys-color-onSurface flex items-center gap-3">
+        <span class="material-symbols-rounded text-[32px] text-md-sys-color-primary">settings</span>
+        הגדרות
+      </h2>
+
+      <div class="bg-md-sys-color-surface p-6 rounded-3xl space-y-6 shadow-md3-1">
+        <div>
+          <h3 class="text-lg font-medium text-md-sys-color-onSurface mb-2">חיבורי Google</h3>
+          <p class="text-sm text-md-sys-color-onSurfaceVariant mb-4">
+            יש להזין Client ID של Google Cloud כדי להשתמש באינטגרציות של יומן, משימות ו-Classroom.
+          </p>
+
+          <div class="flex flex-col gap-4">
+            <div class="flex flex-col gap-1">
+                <label class="text-xs font-medium text-md-sys-color-primary px-4">Google Client ID</label>
+                <input type="text" id="google-client-id" placeholder="xxxx.apps.googleusercontent.com"
+                class="bg-md-sys-color-surfaceContainer border-b-2 pl-4 pr-4 py-3 rounded-t-lg border-b-md-sys-color-outline text-md-sys-color-onSurface focus:outline-none focus:border-b-md-sys-color-primary w-full text-left"
+                dir="ltr">
+            </div>
+
+            <div class="flex flex-col gap-1">
+                <label class="text-xs font-medium text-md-sys-color-primary px-4">Google Classroom Client ID</label>
+                <input type="text" id="google-classroom-client-id" placeholder="xxxx.apps.googleusercontent.com"
+                class="bg-md-sys-color-surfaceContainer border-b-2 pl-4 pr-4 py-3 rounded-t-lg border-b-md-sys-color-outline text-md-sys-color-onSurface focus:outline-none focus:border-b-md-sys-color-primary w-full text-left"
+                dir="ltr">
+            </div>
+          </div>
+        </div>
+
+        <div class="pt-4 border-t border-md-sys-color-outline flex justify-end gap-3">
+          <button onclick="saveSettings()"
+            class="bg-md-sys-color-primary text-md-sys-color-onPrimary px-6 py-2.5 rounded-full font-medium shadow-md3-1 hover:shadow-md3-2 transition-shadow ripple">
+            שמור הגדרות
+          </button>
+        </div>
+      </div>
+    </div>
+
+  </main>
+
+  <!-- Dialog / Modal Layer -->
+  <div id="dialog-overlay"
+    class="fixed inset-0 dialog-overlay-gradient z-[100] hidden items-center justify-center backdrop-blur-md transition-opacity opacity-0">
+    <!-- Add Subject Dialog -->
+    <div id="add-subject-dialog"
+      class="bg-md-sys-color-surfaceContainerHigh min-w-[320px] max-w-[400px] w-[90%] rounded-[28px] p-6 shadow-md3-3 hidden flex-col gap-6">
+      <h2 class="text-[24px] text-md-sys-color-onSurface font-normal">הוספת מחברת חדשה</h2>
+
+      <div class="flex flex-col gap-4">
+        <div class="flex flex-col gap-1">
+          <label class="text-[12px] font-medium text-md-sys-color-primary px-4">שם המחברת</label>
+          <input type="text" id="new-subject-name" placeholder="לדוגמה: היסטוריה"
+            class="bg-md-sys-color-surfaceContainerHighest border-b py-3 px-4 rounded-t-[4px] border-b-md-sys-color-onSurfaceVariant text-md-sys-color-onSurface focus:outline-none focus:border-b-2 focus:border-b-md-sys-color-primary w-full transition-colors">
+        </div>
+
+        <div class="flex flex-col gap-1">
+          <label class="text-[12px] font-medium text-md-sys-color-primary px-4">בחר אייקון</label>
+          <div id="icon-options" class="grid grid-cols-4 sm:grid-cols-6 gap-2"></div>
+        </div>
+
+        <div class="flex flex-col gap-2">
+          <label class="text-[12px] font-medium text-md-sys-color-primary px-4">בחר מעבר צבע למחברת</label>
+          <div id="gradient-options" class="grid grid-cols-2 sm:grid-cols-4 gap-2"></div>
+        </div>
+      </div>
+
+      <div class="flex justify-end gap-2 pt-2">
+        <button onclick="closeDialog()"
+          class="text-md-sys-color-primary font-medium px-4 py-2.5 rounded-full hover:bg-md-sys-color-primaryContainer/20 transition-colors ripple">
+          ביטול
+        </button>
+        <button onclick="saveNewSubject()"
+          class="bg-md-sys-color-primary text-md-sys-color-onPrimary px-6 py-2.5 rounded-full font-medium shadow-md3-1 hover:shadow-md3-2 transition-shadow ripple">
+          הוסף
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Navigation Bar (MD3 Bottom Navigation) -->
+  <nav class="fixed bottom-0 left-0 w-full bg-md-sys-color-surfaceContainer shadow-[0_-1px_3px_rgba(0,0,0,0.1)] pt-2 px-1 sm:px-2 flex justify-center z-50 h-[80px]">
+    <div class="flex max-w-lg w-full justify-around h-full">
+      <button onclick="switchView('home')" class="flex flex-col items-center justify-center w-16 h-full gap-1 text-md-sys-color-onSurfaceVariant relative group nav-btn" id="nav-home">
+        <div class="w-16 h-8 rounded-full flex items-center justify-center group-[.active]:bg-md-sys-color-secondaryContainer indicator transition-colors">
+          <span class="material-symbols-rounded icon-outline group-[.active]:icon-filled">home</span>
+        </div>
+        <span class="text-xs font-medium group-[.active]:text-md-sys-color-onSurface">בית</span>
+      </button>
+      <button onclick="switchView('tasks')" class="flex flex-col items-center justify-center w-16 h-full gap-1 text-md-sys-color-onSurfaceVariant relative group nav-btn" id="nav-tasks">
+        <div class="w-16 h-8 rounded-full flex items-center justify-center group-[.active]:bg-md-sys-color-secondaryContainer indicator transition-colors">
+          <span class="material-symbols-rounded icon-outline group-[.active]:icon-filled">task</span>
+        </div>
+        <span class="text-xs font-medium group-[.active]:text-md-sys-color-onSurface">משימות</span>
+      </button>
+        <button onclick="switchView('admin')" class="flex flex-col items-center justify-center w-16 h-full gap-1 text-md-sys-color-onSurfaceVariant relative group nav-btn" id="nav-admin">
+        <div class="w-16 h-8 rounded-full flex items-center justify-center group-[.active]:bg-md-sys-color-secondaryContainer indicator transition-colors">
+          <span class="material-symbols-rounded icon-outline group-[.active]:icon-filled">admin_panel_settings</span>
+        </div>
+        <span class="text-xs font-medium group-[.active]:text-md-sys-color-onSurface">ניהול</span>
+      </button>
+      <button onclick="switchView('calendar')" class="flex flex-col items-center justify-center w-16 h-full gap-1 text-md-sys-color-onSurfaceVariant relative group nav-btn" id="nav-calendar">
+        <div class="w-16 h-8 rounded-full flex items-center justify-center group-[.active]:bg-md-sys-color-secondaryContainer indicator transition-colors">
+          <span class="material-symbols-rounded icon-outline group-[.active]:icon-filled">event</span>
+        </div>
+        <span class="text-xs font-medium group-[.active]:text-md-sys-color-onSurface">יומן</span>
+      </button>
+      <button onclick="switchView('tools')" class="flex flex-col items-center justify-center w-16 h-full gap-1 text-md-sys-color-onSurfaceVariant relative group nav-btn" id="nav-tools">
+        <div class="w-16 h-8 rounded-full flex items-center justify-center group-[.active]:bg-md-sys-color-secondaryContainer indicator transition-colors">
+          <span class="material-symbols-rounded icon-outline group-[.active]:icon-filled">apps</span>
+        </div>
+        <span class="text-xs font-medium group-[.active]:text-md-sys-color-onSurface">כלים</span>
+      </button>
+      <button onclick="switchView('classroom')" class="flex flex-col items-center justify-center w-16 h-full gap-1 text-md-sys-color-onSurfaceVariant relative group nav-btn" id="nav-classroom">
+        <div class="w-16 h-8 rounded-full flex items-center justify-center group-[.active]:bg-md-sys-color-secondaryContainer indicator transition-colors">
+          <span class="material-symbols-rounded icon-outline group-[.active]:icon-filled">school</span>
+        </div>
+        <span class="text-xs font-medium group-[.active]:text-md-sys-color-onSurface">כיתה</span>
+      </button>
+      <button onclick="switchView('settings')" class="flex flex-col items-center justify-center w-16 h-full gap-1 text-md-sys-color-onSurfaceVariant relative group nav-btn" id="nav-settings">
+        <div class="w-16 h-8 rounded-full flex items-center justify-center group-[.active]:bg-md-sys-color-secondaryContainer indicator transition-colors">
+          <span class="material-symbols-rounded icon-outline group-[.active]:icon-filled">settings</span>
+        </div>
+        <span class="text-xs font-medium group-[.active]:text-md-sys-color-onSurface">הגדרות</span>
+      </button>
+    </div>
+  </nav>
+
+  <script>
+    // --- Google API Config ---
+    const DISCOVERY_DOCS = [
+      'https://www.googleapis.com/discovery/v1/apis/calendar/v3/rest',
+      'https://tasks.googleapis.com/$discovery/rest?version=v1',
+      'https://classroom.googleapis.com/$discovery/rest?version=v1'
+    ];
+    const SCOPES = 'https://www.googleapis.com/auth/calendar.readonly https://www.googleapis.com/auth/tasks.readonly';
+    const CLASSROOM_SCOPES = 'https://www.googleapis.com/auth/classroom.courses.readonly https://www.googleapis.com/auth/classroom.coursework.me.readonly';
+    const DEFAULT_CLASSROOM_CLIENT_ID = '852593997027-15oddpd7k2t9vj58jra0qi697i1uit56.apps.googleusercontent.com';
+    let tokenClient;
+    let classroomTokenClient;
+    let gapiInited = false;
+    let gisInited = false;
+    let isAuthenticated = false;
+    let isClassroomAuthenticated = false;
+    const SUBJECT_ICON_OPTIONS = [
+      { id: 'menu_book', label: 'ספר' },
+      { id: 'calculate', label: 'חשבון' },
+      { id: 'functions', label: 'אלגברה' },
+      { id: 'science', label: 'מדעים' },
+      { id: 'biotech', label: 'ביולוגיה' },
+      { id: 'history_edu', label: 'היסטוריה' },
+      { id: 'g_translate', label: 'שפות' },
+      { id: 'draw', label: 'אמנות' },
+      { id: 'music_note', label: 'מוזיקה' },
+      { id: 'terminal', label: 'תכנות' },
+      { id: 'psychology', label: 'חשיבה' },
+      { id: 'public', label: 'גיאוגרפיה' }
+    ];
+    const NOTEBOOK_GRADIENT_OPTIONS = [
+      { id: 'g1', css: '#D9E2FF', onColor: '#001A40' }, // primaryContainer
+      { id: 'g2', css: '#DAE2F9', onColor: '#131C2B' }, // secondaryContainer
+      { id: 'g3', css: '#FAD8FD', onColor: '#29132E' }, // tertiaryContainer
+      { id: 'g4', css: '#E1E2EC', onColor: '#44474F' }, // surfaceVariant
+      { id: 'g5', css: '#E5E2E6', onColor: '#1B1B1F' }, // surfaceContainerHighest
+      { id: 'g6', css: '#ECEEF1', onColor: '#1B1B1F' }, // surfaceContainerHigh
+    ];
+    let selectedSubjectIcon = 'menu_book';
+    let selectedGradientId = 'g1';
+
+    let subjects = JSON.parse(localStorage.getItem('saved_subjects')) || [
+      { id: 1, name: 'מתמטיקה', icon: 'functions', iconGradient: '#D9E2FF', onColor: '#001A40' },
+      { id: 2, name: 'אנגלית', icon: 'g_translate', iconGradient: '#DAE2F9', onColor: '#131C2B' },
+      { id: 3, name: 'פיזיקה', icon: 'science', iconGradient: '#FAD8FD', onColor: '#29132E' },
+      { id: 4, name: 'מדמ"ח', icon: 'terminal', iconGradient: '#E1E2EC', onColor: '#44474F' }
+    ];
+
+    const tools = [
+        { name: 'Notebook LM', icon: 'edit_note', url: 'https://notebooklm.google.com/' },
+        { name: 'Perplexity', icon: 'search', url: 'https://www.perplexity.ai/' },
+        { name: 'תרגום', icon: 'translate', url: 'https://translate.google.com/' },
+        { name: 'Duolingo', icon: 'language', url: 'https://www.duolingo.com/' },
+        { name: 'Copilot', icon: 'smart_toy', url: 'https://copilot.microsoft.com/' },
+        { name: 'YouTube', icon: 'play_circle', url: 'https://www.youtube.com/' },
+        { name: 'Claude', icon: 'chat_bubble', url: 'https://claude.ai/' },
+        { name: 'Zoom', icon: 'videocam', url: 'https://zoom.us/' },
+        { name: 'Gemini', icon: 'auto_awesome', url: 'https://gemini.google.com/' },
+        { name: 'Notion', icon: 'checklist', url: 'https://www.notion.so/' },
+        { name: 'יומן', icon: 'calendar_month', url: 'https://calendar.google.com/' },
+        { name: 'BrainPOP', icon: 'lightbulb', url: 'https://www.brainpop.com/' },
+        { name: 'Grok', icon: 'psychology_alt', url: 'https://grok.x.ai/' },
+        { name: 'הספרייה הדיגיטלית', icon: 'local_library', url: 'https://www.nli.org.il/he/discover/digitized-treasures/digital-library' },
+        { name: 'Canva', icon: 'design_services', url: 'https://www.canva.com/' },
+        { name: 'Google Tasks', icon: 'task_alt', url: 'https://tasks.google.com/' },
+        { name: 'Office 365', icon: 'apps', url: 'https://www.office.com/' },
+        { name: 'Suno AI', icon: 'music_note', url: 'https://www.suno.ai/' },
+        { name: 'Manus', icon: 'edit', url: 'https://manus.co.il/' },
+        { name: 'Gmail', icon: 'mail', url: 'https://mail.google.com/' },
+        { name: 'Classroom', icon: 'school', url: 'https://classroom.google.com/' },
+        { name: 'הספרייה הווירטואלית', icon: 'cast_for_education', url: 'https://www.orianit.edu-negev.gov.il/homepage/virtual-library/' },
+        { name: 'ויקיפדיה', icon: 'public', url: 'https://www.wikipedia.org/' },
+        { name: 'Google Drive', icon: 'add_to_drive', url: 'https://drive.google.com/' },
+        { name: 'וואלה! מייל', icon: 'alternate_email', url: 'https://mail.walla.co.il/' },
+    ];
+    const GOOGLE_TASKS_URL = 'https://tasks.google.com/';
+    const GOOGLE_CALENDAR_URL = 'https://calendar.google.com/calendar/u/0/r';
+    const GOOGLE_CLASSROOM_URL = 'https://classroom.google.com/u/0/h';
+
+    function openExternalUrl(url) {
+      if (!url) return;
+      window.open(url, '_blank', 'noopener,noreferrer');
+    }
+
+    function switchView(viewId) {
+      ['home', 'tools', 'tasks', 'calendar', 'classroom', 'settings', 'admin'].forEach(id => {
+        const el = document.getElementById('view-' + id);
+        if (el) el.classList.add('hidden');
+      });
+      document.getElementById('view-' + viewId)?.classList.remove('hidden');
+
+      document.querySelectorAll('.nav-btn').forEach(btn => btn.classList.remove('active'));
+      const activeBtn = document.getElementById('nav-' + viewId);
+      if (activeBtn) activeBtn.classList.add('active');
+
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    function openTask(subject) {
+      openExternalUrl(GOOGLE_CLASSROOM_URL);
+    }
+
+    function getGradientOption(id) {
+      return NOTEBOOK_GRADIENT_OPTIONS.find(g => g.id === id) || NOTEBOOK_GRADIENT_OPTIONS[0];
+    }
+
+    function renderIconOptions() {
+      const container = document.getElementById('icon-options');
+      if (!container) return;
+      container.innerHTML = '';
+
+      SUBJECT_ICON_OPTIONS.forEach(icon => {
+        container.innerHTML += `
+          <button type="button" onclick="setSelectedIcon('${icon.id}')"
+            class="subject-option-btn ${selectedSubjectIcon === icon.id ? 'active' : ''} h-12 flex items-center justify-center"
+            title="${icon.label}">
+            <span class="material-symbols-rounded text-[22px]">${icon.id}</span>
+          </button>
+        `;
+      });
+    }
+
+    function renderGradientOptions() {
+      const container = document.getElementById('gradient-options');
+      if (!container) return;
+      container.innerHTML = '';
+
+      NOTEBOOK_GRADIENT_OPTIONS.forEach(gradient => {
+        container.innerHTML += `
+          <button type="button" onclick="setSelectedGradient('${gradient.id}')"
+            class="gradient-option-btn ${selectedGradientId === gradient.id ? 'active' : ''}"
+            style="background: ${gradient.css};"
+            title="מעבר ${gradient.id}">
+          </button>
+        `;
+      });
+    }
+
+    function setSelectedIcon(iconId) {
+      selectedSubjectIcon = iconId;
+      renderIconOptions();
+    }
+
+    function setSelectedGradient(gradientId) {
+      selectedGradientId = gradientId;
+      renderGradientOptions();
+    }
+
+    // --- Subject Management Logic ---
+    function renderSubjects() {
+      const subjectContainer = document.getElementById('subject-list');
+      if (!subjectContainer) return;
+      subjectContainer.innerHTML = '';
+
+      subjects.forEach(s => {
+        const iconStyle = s.iconGradient
+          ? `background: ${s.iconGradient}; color: ${s.onColor || '#1f2937'}`
+          : `background: linear-gradient(140deg, ${s.color || '#80EC99'}, rgba(115, 114, 253, 0.18)); color: ${s.onColor || '#1f2937'}`;
+
+        subjectContainer.innerHTML += `
+                <div class="bg-md-sys-color-surfaceContainerHighest backdrop-blur-sm border border-md-sys-color-outline/30 p-4 rounded-2xl hover:shadow-lg transition-all duration-300 ripple flex flex-col justify-between h-32 relative group transform hover:-translate-y-1">
+                    <!-- Delete Button -->
+                    <button onclick="deleteSubject(${s.id}, event)" class="absolute top-2 left-2 w-8 h-8 rounded-full bg-md-sys-color-surface text-md-sys-color-primary flex items-center justify-center shadow-md opacity-0 group-hover:opacity-100 transition-opacity z-10 hover:bg-md-sys-color-primary hover:text-md-sys-color-onPrimary">
+                        <span class="material-symbols-rounded text-[18px]">delete</span>
+                    </button>
+
+                    <div onclick="openTask('${s.name}')" class="flex-1 flex flex-col justify-between cursor-pointer">
+                        <div class="w-11 h-11 rounded-full flex items-center justify-center mb-2 shadow-sm font-bold border border-md-sys-color-outline/30" style="${iconStyle}">
+                            <span class="material-symbols-rounded icon-filled">${s.icon}</span>
+                        </div>
+                        <h3 class="font-bold text-[16px] text-md-sys-color-onSurface">${s.name}</h3>
+                    </div>
+                </div>
+            `;
+      });
+    }
+
+    function openAddSubjectDialog() {
+      const overlay = document.getElementById('dialog-overlay');
+      const dialog = document.getElementById('add-subject-dialog');
+      selectedSubjectIcon = 'menu_book';
+      selectedGradientId = 'g1';
+      renderIconOptions();
+      renderGradientOptions();
+
+      overlay.classList.remove('hidden');
+      dialog.classList.remove('hidden');
+
+      setTimeout(() => {
+        overlay.classList.remove('opacity-0');
+        overlay.classList.add('opacity-100');
+        dialog.classList.add('flex');
+      }, 10);
+    }
+
+    function closeDialog() {
+      const overlay = document.getElementById('dialog-overlay');
+      const dialog = document.getElementById('add-subject-dialog');
+
+      overlay.classList.remove('opacity-100');
+      overlay.classList.add('opacity-0');
+
+      setTimeout(() => {
+        overlay.classList.add('hidden');
+        dialog.classList.add('hidden');
+        dialog.classList.remove('flex');
+
+        document.getElementById('new-subject-name').value = '';
+      }, 200);
+    }
+
+    function saveNewSubject() {
+      const nameInput = document.getElementById('new-subject-name').value.trim();
+      const iconInput = selectedSubjectIcon || 'menu_book';
+      const gradient = getGradientOption(selectedGradientId);
+
+      if (!nameInput) {
+        alert("אנא הזן שם מקצוע");
+        return;
+      }
+
+      const newSubject = {
+        id: Date.now(),
+        name: nameInput,
+        icon: iconInput,
+        iconGradient: gradient.css,
+        onColor: gradient.onColor
+      };
+
+      subjects.push(newSubject);
+      localStorage.setItem('saved_subjects', JSON.stringify(subjects));
+      renderSubjects();
+      closeDialog();
+    }
+
+    function deleteSubject(id, event) {
+      event.stopPropagation();
+      if (confirm("האם למחוק מחברת זו?")) {
+        subjects = subjects.filter(s => s.id !== id);
+        localStorage.setItem('saved_subjects', JSON.stringify(subjects));
+        renderSubjects();
+      }
+    }
+
+    // --- Settings Logic ---
+    function saveSettings() {
+      const clientId = document.getElementById('google-client-id').value.trim();
+      const classroomClientId = document.getElementById('google-classroom-client-id').value.trim();
+      if (clientId) {
+        localStorage.setItem('google_client_id', clientId);
+      } else {
+        localStorage.removeItem('google_client_id');
+      }
+
+      if (classroomClientId) {
+        localStorage.setItem('google_classroom_client_id', classroomClientId);
+      } else {
+        localStorage.removeItem('google_classroom_client_id');
+      }
+
+      alert("הגדרות נשמרו בהצלחה! מרענן אפליקציה...");
+      location.reload();
+    }
+
+    // --- Google APIs Auth & Data Fetching ---
+    function gapiLoaded() {
+      gapi.load('client', initializeGapiClient);
+    }
+
+    async function initializeGapiClient() {
+      try {
+        await gapi.client.init({
+          discoveryDocs: DISCOVERY_DOCS,
+        });
+        gapiInited = true;
+        maybeEnableAuth();
+      } catch (err) {
+        console.error("GAPI Init Error", err);
+      }
+    }
+
+    function gisLoaded() {
+      const clientId = localStorage.getItem('google_client_id');
+      const classroomClientId = localStorage.getItem('google_classroom_client_id') || DEFAULT_CLASSROOM_CLIENT_ID;
+
+      if (clientId) {
+        tokenClient = google.accounts.oauth2.initTokenClient({
+          client_id: clientId,
+          scope: SCOPES,
+          callback: (tokenResponse) => {
+            if (tokenResponse && tokenResponse.access_token) {
+              isAuthenticated = true;
+              updateGoogleUIAuthStatus();
+              fetchTasks();
+              fetchCalendar();
+            }
+          },
+        });
+      }
+
+      if (classroomClientId) {
+        classroomTokenClient = google.accounts.oauth2.initTokenClient({
+          client_id: classroomClientId,
+          scope: CLASSROOM_SCOPES,
+          callback: (tokenResponse) => {
+            if (tokenResponse && tokenResponse.access_token) {
+              isClassroomAuthenticated = true;
+              updateClassroomUIAuthStatus();
+              fetchClassroomCourses();
+            }
+          },
+        });
+      }
+
+      gisInited = true;
+      maybeEnableAuth();
+    }
+
+    function maybeEnableAuth() {
+      if (gapiInited && gisInited) {
+        updateGoogleUIAuthStatus();
+        updateClassroomUIAuthStatus();
+      }
+    }
+
+    function handleAuthClick() {
+      if (!localStorage.getItem('google_client_id')) {
+        switchView('settings');
+        alert("אנא הגדר תחילה Client ID במסך ההגדרות");
+        return;
+      }
+      if (tokenClient) {
+        tokenClient.requestAccessToken({ prompt: 'consent' });
+      }
+    }
+
+    function handleClassroomAuthClick() {
+      const classroomClientId = localStorage.getItem('google_classroom_client_id') || DEFAULT_CLASSROOM_CLIENT_ID;
+      if (!classroomClientId) {
+        switchView('settings');
+        alert("אנא הגדר תחילה Classroom Client ID במסך ההגדרות");
+        return;
+      }
+      if (classroomTokenClient) {
+        classroomTokenClient.requestAccessToken({ prompt: 'select_account consent' });
+      }
+    }
+
+    function updateGoogleUIAuthStatus() {
+      const homeCalendarContent = document.getElementById('home-calendar-content');
+
+      if (isAuthenticated) {
+        // Hide auth prompts, show data containers
+        document.getElementById('tasks-container').classList.add('hidden');
+        document.getElementById('calendar-container').classList.add('hidden');
+        document.getElementById('tasks-list').classList.remove('hidden');
+        document.getElementById('tasks-list').classList.add('flex');
+        document.getElementById('calendar-events').classList.remove('hidden');
+        document.getElementById('calendar-events').classList.add('grid');
+        fetchHomeCalendar(); // Fetch for homepage calendar
+      } else {
+        // Show auth prompts
+        const authBtnTasks = document.querySelector('#tasks-container button');
+        const authBtnCal = document.querySelector('#calendar-container button');
+        const hasClientId = !!localStorage.getItem('google_client_id');
+        
+        const updateButton = (btn, authHandler, settingsHandler) => {
+            if (!btn) return;
+            if (hasClientId) {
+                btn.innerText = "התחבר עם Google";
+                btn.onclick = authHandler;
+            } else {
+                btn.innerText = "הגדר חיבור";
+                btn.onclick = settingsHandler;
+            }
+        };
+
+        updateButton(authBtnTasks, handleAuthClick, () => switchView('settings'));
+        updateButton(authBtnCal, handleAuthClick, () => switchView('settings'));
+
+        // Handle home calendar auth state
+        if (homeCalendarContent) {
+            homeCalendarContent.innerHTML = `
+                <div class="text-center">
+                    <p class="text-[12px] text-md-sys-color-onSurfaceVariant mb-2">התחבר ל-Google כדי לראות אירועים.</p>
+                    <button id="home-auth-btn" class="bg-md-sys-color-primary text-md-sys-color-onPrimary px-4 py-1.5 rounded-full text-[12px] font-medium shadow-sm hover:shadow-md transition-shadow ripple">
+                        ${hasClientId ? 'התחבר' : 'הגדר'}
+                    </button>
+                </div>
+            `;
+            const homeAuthBtn = document.getElementById('home-auth-btn');
+            if (homeAuthBtn) {
+                homeAuthBtn.onclick = hasClientId ? handleAuthClick : () => switchView('settings');
+            }
+        }
+      }
+    }
+
+    function updateClassroomUIAuthStatus() {
+      const classroomContainer = document.getElementById('classroom-container');
+      const classroomList = document.getElementById('classroom-list');
+      const authBtnClassroom = document.querySelector('#classroom-container button');
+      const hasClassroomClientId = !!(localStorage.getItem('google_classroom_client_id') || DEFAULT_CLASSROOM_CLIENT_ID);
+
+      if (!classroomContainer || !classroomList) return;
+
+      if (isClassroomAuthenticated) {
+        classroomContainer.classList.add('hidden');
+        classroomList.classList.remove('hidden');
+        classroomList.classList.add('grid');
+        return;
+      }
+
+      classroomContainer.classList.remove('hidden');
+      classroomList.classList.add('hidden');
+      classroomList.classList.remove('grid');
+
+      if (!authBtnClassroom) return;
+
+      if (hasClassroomClientId) {
+        authBtnClassroom.innerText = "התחבר ל-Classroom";
+        authBtnClassroom.onclick = handleClassroomAuthClick;
+      } else {
+        authBtnClassroom.innerText = "הגדר Classroom";
+        authBtnClassroom.onclick = () => switchView('settings');
+      }
+    }
+
+    async function fetchHomeCalendar() {
+        const container = document.getElementById('home-calendar-content');
+        if (!container || !isAuthenticated) return;
+        container.innerHTML = '<div class="text-center p-2"><span class="material-symbols-rounded animate-spin text-[20px]">refresh</span></div>';
+
+        try {
+            const d = new Date();
+            d.setHours(0, 0, 0, 0);
+
+            const response = await gapi.client.calendar.events.list({
+                'calendarId': 'primary',
+                'timeMin': d.toISOString(),
+                'showDeleted': false,
+                'singleEvents': true,
+                'maxResults': 3,
+                'orderBy': 'startTime'
+            });
+
+            const events = response.result.items;
+            container.innerHTML = '';
+
+            if (!events || events.length === 0) {
+                container.innerHTML = '<p class="text-[12px] text-center text-md-sys-color-onSurfaceVariant">אין אירועים קרובים.</p>';
+                return;
+            }
+
+            events.forEach(event => {
+                const eventLink = event.htmlLink || GOOGLE_CALENDAR_URL;
+                let start = event.start.dateTime || event.start.date;
+                let timeStr = 'כל היום';
+                if (event.start.dateTime) {
+                    timeStr = new Date(start).toLocaleTimeString('he-IL', { hour: '2-digit', minute: '2-digit' });
+                }
+                
+                container.innerHTML += `
+                    <a href="${eventLink}" target="_blank" rel="noopener noreferrer" class="bg-md-sys-color-surfaceContainer p-3 rounded-xl flex items-center gap-3 hover:bg-md-sys-color-surfaceVariant transition-colors">
+                        <div class="flex-grow">
+                            <p class="text-[14px] font-medium text-md-sys-color-onSurface line-clamp-1">${event.summary}</p>
+                            <p class="text-[12px] text-md-sys-color-onSurfaceVariant">${timeStr}</p>
+                        </div>
+                        <span class="material-symbols-rounded text-md-sys-color-primary text-[20px]">arrow_forward_ios</span>
+                    </a>
+                `;
+            });
+        } catch (err) {
+            container.innerHTML = `<div class="bg-md-sys-color-errorContainer p-2 rounded-lg text-md-sys-color-onErrorContainer text-[11px]">שגיאה בטעינת יומן.</div>`;
+        }
+    }
+
+    async function fetchTasks() {
+      const tasksList = document.getElementById('tasks-list');
+      tasksList.innerHTML = '<div class="text-center p-4"><span class="material-symbols-rounded animate-spin">refresh</span> טוען...</div>';
+
+      try {
+        // Fetch default task list first
+        const listsResponse = await gapi.client.tasks.tasklists.list();
+        const taskLists = listsResponse.result.items;
+        if (!taskLists || taskLists.length === 0) {
+          tasksList.innerHTML = '<p class="text-center text-md-sys-color-onSurfaceVariant">לא נמצאו רשימות משימות.</p>';
+          return;
+        }
+
+        const primaryListId = taskLists[0].id;
+        const tasksResponse = await gapi.client.tasks.tasks.list({
+          tasklist: primaryListId,
+          showCompleted: false,
+          maxResults: 10
+        });
+
+        const tasks = tasksResponse.result.items;
+        tasksList.innerHTML = '';
+
+        if (!tasks || tasks.length === 0) {
+          tasksList.innerHTML = `
+                <div class="bg-md-sys-color-surfaceContainerHighest p-6 rounded-[20px] text-center">
+                    <span class="material-symbols-rounded text-[40px] text-md-sys-color-primary mb-2">done_all</span>
+                    <p class="text-md-sys-color-onSurface">אין משימות פתוחות. עבודה טובה!</p>
+                </div>
+            `;
+          return;
+        }
+
+        tasks.forEach(task => {
+          const dateStr = task.due ? new Date(task.due).toLocaleDateString('he-IL') : 'ללא תאריך';
+          tasksList.innerHTML += `
+               <a href="${GOOGLE_TASKS_URL}" target="_blank" rel="noopener noreferrer" class="bg-md-sys-color-surfaceContainerLow p-4 rounded-[20px] flex items-center justify-between hover:bg-md-sys-color-surfaceContainer transition-colors cursor-pointer">
+                  <div class="flex items-center gap-4">
+                     <div class="w-6 h-6 rounded-full border-2 border-md-sys-color-outline flex items-center justify-center cursor-pointer hover:border-md-sys-color-primary transition-colors"></div>
+                     <div>
+                        <h4 class="text-[16px] font-medium text-md-sys-color-onSurface line-clamp-1">${task.title}</h4>
+                        <p class="text-[12px] text-md-sys-color-onSurfaceVariant flex items-center gap-1 mt-0.5"><span class="material-symbols-rounded text-[14px]">event</span> ${dateStr}</p>
+                     </div>
+                  </div>
+               </a>
+            `;
+        });
+
+      } catch (err) {
+        tasksList.innerHTML = `<div class="bg-md-sys-color-errorContainer p-4 rounded-xl text-md-sys-color-onErrorContainer text-sm">שגיאה בטעינת משימות: ${err.message}</div>`;
+      }
+    }
+
+    async function fetchCalendar() {
+      const calEvents = document.getElementById('calendar-events');
+      calEvents.innerHTML = '<div class="col-span-full text-center p-4"><span class="material-symbols-rounded animate-spin">refresh</span> טוען...</div>';
+
+      try {
+        const d = new Date();
+        d.setHours(0, 0, 0, 0);
+
+        const response = await gapi.client.calendar.events.list({
+          'calendarId': 'primary',
+          'timeMin': d.toISOString(),
+          'showDeleted': false,
+          'singleEvents': true,
+          'maxResults': 10,
+          'orderBy': 'startTime'
+        });
+
+        const events = response.result.items;
+        calEvents.innerHTML = '';
+
+        if (!events || events.length === 0) {
+          calEvents.innerHTML = `
+                <div class="col-span-full bg-md-sys-color-surfaceContainerHighest p-6 rounded-[20px] text-center">
+                    <span class="material-symbols-rounded text-[40px] text-md-sys-color-primary mb-2">event_available</span>
+                    <p class="text-md-sys-color-onSurface">אין אירועים קרובים ביומן.</p>
+                </div>
+            `;
+          return;
+        }
+
+        events.forEach(event => {
+          const eventLink = event.htmlLink || GOOGLE_CALENDAR_URL;
+          let start = event.start.dateTime || event.start.date;
+          let timeStr = 'כל היום';
+          if (event.start.dateTime) {
+            timeStr = new Date(start).toLocaleTimeString('he-IL', { hour: '2-digit', minute: '2-digit' });
+          }
+          let dateStr = new Date(start).toLocaleDateString('he-IL', { weekday: 'short', day: 'numeric', month: 'numeric' });
+
+          calEvents.innerHTML += `
+               <a href="${eventLink}" target="_blank" rel="noopener noreferrer" class="bg-md-sys-color-surfaceContainerHighest p-4 rounded-2xl flex flex-col gap-2 hover:bg-md-sys-color-surfaceVariant transition-colors cursor-pointer">
+                  <div class="flex justify-between items-start">
+                     <h4 class="text-[16px] font-medium text-md-sys-color-onSurface line-clamp-2">${event.summary}</h4>
+                     <div class="w-10 h-10 rounded-full bg-md-sys-color-primaryContainer text-md-sys-color-onPrimaryContainer flex-shrink-0 flex items-center justify-center">
+                        <span class="material-symbols-rounded text-[20px]">calendar_today</span>
+                     </div>
+                  </div>
+                  <div class="flex items-center gap-3 text-[13px] text-md-sys-color-onSurfaceVariant mt-auto pt-2 border-t border-md-sys-color-outline/20">
+                     <span class="flex items-center gap-1"><span class="material-symbols-rounded text-[16px]">schedule</span> ${timeStr}</span>
+                     <span class="flex items-center gap-1"><span class="material-symbols-rounded text-[16px]">event</span> ${dateStr}</span>
+                  </div>
+               </a>
+            `;
+        });
+
+      } catch (err) {
+        calEvents.innerHTML = `<div class="col-span-full bg-md-sys-color-errorContainer p-4 rounded-xl text-md-sys-color-onErrorContainer text-sm">שגיאה בטעינת אירועים: ${err.message}</div>`;
+      }
+    }
+
+    async function fetchClassroomCourses() {
+      const classroomList = document.getElementById('classroom-list');
+      if (!classroomList) return;
+      classroomList.innerHTML = '<div class="col-span-full text-center p-4"><span class="material-symbols-rounded animate-spin">refresh</span> טוען קורסים...</div>';
+
+      try {
+        const coursesResponse = await gapi.client.classroom.courses.list({
+          pageSize: 20,
+          courseStates: ['ACTIVE']
+        });
+        const courses = coursesResponse.result.courses || [];
+        classroomList.innerHTML = '';
+
+        if (courses.length === 0) {
+          classroomList.innerHTML = `
+            <div class="col-span-full bg-md-sys-color-surfaceContainerHighest p-6 rounded-[20px] text-center">
+              <span class="material-symbols-rounded text-[40px] text-md-sys-color-primary mb-2">school</span>
+              <p class="text-md-sys-color-onSurface">לא נמצאו קורסים פעילים ב-Classroom.</p>
+            </div>
+          `;
+          return;
+        }
+
+        for (const course of courses) {
+          let upcomingText = 'אין מטלות קרובות';
+          let upcomingLink = '';
+          try {
+            const workResponse = await gapi.client.classroom.courses.courseWork.list({
+              courseId: course.id,
+              pageSize: 3,
+              orderBy: 'dueDate desc'
+            });
+            const works = workResponse.result.courseWork || [];
+            if (works.length > 0) {
+              const first = works[0];
+              upcomingText = first.title || 'מטלה ללא כותרת';
+              upcomingLink = first.alternateLink || '';
+            }
+          } catch (workErr) {
+            upcomingText = 'אין הרשאה לקריאת מטלות בקורס זה';
+          }
+          const courseLink = course.alternateLink || GOOGLE_CLASSROOM_URL;
+          const upcomingHtml = upcomingLink
+            ? `<a href="${upcomingLink}" target="_blank" rel="noopener noreferrer" onclick="event.stopPropagation()" class="hover:underline"> ${upcomingText}</a>`
+            : upcomingText;
+
+          classroomList.innerHTML += `
+            <div onclick="openExternalUrl('${courseLink}')" class="bg-md-sys-color-surfaceContainerHighest p-4 rounded-2xl flex flex-col gap-2 hover:bg-md-sys-color-surfaceVariant transition-colors cursor-pointer">
+              <div class="flex justify-between items-start gap-3">
+                <h4 class="text-[16px] font-medium text-md-sys-color-onSurface line-clamp-2">${course.name || 'קורס ללא שם'}</h4>
+                <div class="w-10 h-10 rounded-full bg-md-sys-color-primaryContainer text-md-sys-color-onPrimaryContainer flex items-center justify-center flex-shrink-0">
+                  <span class="material-symbols-rounded text-[20px]">school</span>
+                </div>
+              </div>
+              <p class="text-[13px] text-md-sys-color-onSurfaceVariant line-clamp-1">${course.section || 'ללא כיתה/קבוצה'}</p>
+              <div class="pt-2 border-t border-md-sys-color-outline/20 text-[13px] text-md-sys-color-onSurfaceVariant">
+                <span class="material-symbols-rounded text-[16px] align-middle ml-1">assignment</span>${upcomingHtml}
+              </div>
+            </div>
+          `;
+        }
+      } catch (err) {
+        classroomList.innerHTML = `<div class="col-span-full bg-md-sys-color-errorContainer p-4 rounded-xl text-md-sys-color-onErrorContainer text-sm">שגיאה בטעינת Classroom: ${err.message}</div>`;
+      }
+    }
+
+    // Initialize UI
+    function init() {
+      // Add FAB listener safely
+      const addButtons = document.querySelectorAll('button');
+      addButtons.forEach(btn => {
+        if (btn.querySelector('span') && btn.querySelector('span').innerHTML.includes('add')) {
+          btn.onclick = openAddSubjectDialog;
+        }
+      });
+
+      // Set init active nav
+      document.getElementById('nav-home').classList.add('active');
+
+      // Load saved Settings
+      const savedClientId = localStorage.getItem('google_client_id');
+      if (savedClientId) {
+        const el = document.getElementById('google-client-id');
+        if (el) el.value = savedClientId;
+      }
+      const savedClassroomClientId = localStorage.getItem('google_classroom_client_id') || DEFAULT_CLASSROOM_CLIENT_ID;
+      const classroomEl = document.getElementById('google-classroom-client-id');
+      if (classroomEl) classroomEl.value = savedClassroomClientId;
+
+      // Update UI for Auth Based on Storage State initially
+      updateGoogleUIAuthStatus();
+      updateClassroomUIAuthStatus();
+
+      renderSubjects();
+      renderIconOptions();
+      renderGradientOptions();
+
+      const toolsGrid = document.getElementById('tools-grid');
+      const allToolsGrid = document.getElementById('all-tools-grid');
+
+      tools.forEach(t => {
+        const toolHTMLCard = `
+                    <div class="flex flex-col items-center gap-2 group cursor-pointer">
+                        <div class="w-14 h-14 bg-md-sys-color-surfaceContainerHighest rounded-full flex items-center justify-center text-md-sys-color-onSurface hover:bg-md-sys-color-surfaceVariant transition-colors ripple">
+                            <span class="material-symbols-rounded text-[28px]">${t.icon}</span>
+                        </div>
+                        <span class="text-[12px] font-medium text-md-sys-color-onSurface text-center">${t.name}</span>
+                    </div>
+                `;
+
+        const toolHTMLList = `
+                     <div class="bg-md-sys-color-surfaceContainerLow p-4 rounded-[20px] flex items-center gap-4 cursor-pointer hover:bg-md-sys-color-surfaceContainer transition-colors ripple">
+                        <div class="w-12 h-12 bg-md-sys-color-primaryContainer rounded-full flex items-center justify-center text-md-sys-color-onPrimaryContainer">
+                            <span class="material-symbols-rounded">${t.icon}</span>
+                        </div>
+                        <span class="text-[16px] font-medium text-md-sys-color-onSurface">${t.name}</span>
+                    </div>
+                `;
+
+        if (toolsGrid) toolsGrid.innerHTML += toolHTMLCard;
+        if (allToolsGrid) allToolsGrid.innerHTML += toolHTMLList;
+      });
+    }
+
+    window.onload = () => {
+      init();
+      if (typeof gapi !== 'undefined') gapiLoaded();
+      if (typeof google !== 'undefined' && google.accounts) gisLoaded();
+    };
+  </script>
+</body>
+
+</html>
